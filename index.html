@@ -240,50 +240,131 @@ table { max-width:100%; }
         <button class="logout-btn" onclick="logout()">Logout</button>
         <h2>Principal Master Portal</h2>
         <div class="nav-tabs">
-            <button class="active" onclick="showTab('p-staff')">Staff Directory</button>
+            <button class="active" onclick="showTab('p-staff')">STAFF DIRECTORY</button>
+            <button onclick="showTab('p-state-staff')">STATE</button>
+            <button onclick="showTab('p-cbse-staff')">CBSE</button>
             <button onclick="showTab('p-class-tt')">Class Timetables</button>
             <button onclick="showTab('p-teacher-tt')">Teacher Timetables</button>
             <button onclick="showTab('p-sub-tt')">Substitution Logs</button>
         </div>
 
+        <!-- New central Staff Directory. The old single-purpose staff page has been replaced
+             by this complete directory; STATE and CBSE are separate filtered views below. -->
         <div id="p-staff" class="tab-content active-module">
-            <h3>Staff Details Registration <small style="color:#666;">(Principal Only)</small></h3>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <div class="form-group" style="flex: 1;"><label>Employee ID:</label><input type="text" id="staffEmpId" placeholder="e.g. SC1001"></div>
-                <div class="form-group" style="flex: 1;"><label>Name:</label><input type="text" id="staffName" placeholder="Full name"></div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Designation:</label>
-                    <select id="staffDesig">
-                        <option value="">Select</option><option>Dean</option><option>IPL Incharge</option>
-                        <option>Civils Batch Incharge</option><option>C or M Batch Incharge</option>
-                        <option>C Batch Incharge</option><option>S Batch Incharge</option>
-                        <option>HOD</option><option>10th Incharge</option><option>Teacher</option>
+            <h3>STAFF DIRECTORY <small style="color:#666;">(Principal Only)</small></h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
+                <div class="form-group" style="flex:1; min-width:150px;">
+                    <label>Board:</label>
+                    <select id="staffBoard">
+                        <option value="">Select Board</option>
+                        <option value="STATE">STATE</option>
+                        <option value="CBSE">CBSE</option>
+                        <option value="BOTH">BOTH</option>
                     </select>
                 </div>
-                <div class="form-group" style="flex: 1;">
+                <div class="form-group" style="flex:1; min-width:150px;">
+                    <label>Employee ID:</label>
+                    <input type="text" id="staffEmpId" placeholder="e.g. SC1001">
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Employee Code:</label>
+                    <input type="text" id="staffEmployeeCode" placeholder="e.g. HYD274246">
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Name:</label>
+                    <input type="text" id="staffName" placeholder="Full name">
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Joining Date:</label>
+                    <input type="text" id="staffJoiningDate" placeholder="e.g. 26-Feb-15">
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Designation:</label>
+                    <select id="staffDesig">
+                        <option value="">Select</option>
+                        <option>Dean</option><option>IPL Incharge</option>
+                        <option>Civils Batch Incharge</option><option>C or M Batch Incharge</option>
+                        <option>C Batch Incharge</option><option>S Batch Incharge</option>
+                        <option>HOD</option><option>H.O.D (Telugu)</option><option>H.O.D (English)</option>
+                        <option>H.O.D (Hindi)</option><option>H.O.D (Math)</option><option>H.O.D (Physics)</option>
+                        <option>H.O.D (Chemistry)</option><option>H.O.D (Zoology)</option><option>H.O.D (Biology)</option>
+                        <option>H.O.D (Social)</option><option>10th Incharge</option><option>Teacher</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
                     <label>Subject:</label>
                     <select id="staffSubj">
                         <option value="">Select</option><option>Telugu</option><option>Hindi</option>
                         <option>English</option><option>Math</option><option>Physics</option>
-                        <option>Chemistry</option><option>Biology</option><option>Social</option>
-                        <option>IT</option><option>Computer</option><option>Wizclub</option>
+                        <option>Chemistry</option><option>Biology</option><option>Botany</option><option>Zoology</option>
+                        <option>Social</option><option>IT</option><option>Computer</option><option>Wizclub</option>
                         <option>Art & Crafts</option><option>PET</option><option>Reasoning</option><option>Arithmetic</option>
                     </select>
                 </div>
-                <div class="form-group" style="flex: 1;"><label>Mobile No:</label><input type="text" id="staffMob"></div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Qualification 1:</label>
+                    <input type="text" id="staffQualification1" placeholder="e.g. M.Sc">
+                </div>
+                <div class="form-group" style="flex:1; min-width:180px;">
+                    <label>Qualification 2:</label>
+                    <input type="text" id="staffQualification2" placeholder="e.g. B.Ed">
+                </div>
+                <div class="form-group" style="flex:1; min-width:160px;">
+                    <label>Mobile No:</label>
+                    <input type="text" id="staffMob">
+                </div>
             </div>
             <button onclick="saveStaff()">Save Staff</button>
             <button onclick="clearStaffForm()">Next Entry</button>
-            
             <div id="employeeImportStatus" style="margin-top:10px; font-weight:bold;"></div>
-            
-            <h3 style="margin-top: 20px;">Saved Global Staff Database</h3>
-            <table id="staffTable">
-                <thead><tr><th>S.No</th><th>Emp ID</th><th>Name</th><th>Designation</th><th>Subject</th><th>Mobile No</th><th>Action</th></tr></thead>
-                <tbody></tbody>
-            </table>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:20px;">
+                <h3 style="margin:0; flex:1;">Complete Staff Database</h3>
+                <div class="form-group" style="margin:0; min-width:180px;">
+                    <label>View Board:</label>
+                    <select id="staffDirectoryFilter" onchange="renderStaffTable()">
+                        <option value="ALL">BOTH</option>
+                        <option value="STATE">STATE</option>
+                        <option value="CBSE">CBSE</option>
+                    </select>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table id="staffTable">
+                    <thead><tr>
+                        <th>S.No</th><th>Board</th><th>Emp ID</th><th>Employee Code</th><th>Name</th>
+                        <th>Joining Date</th><th>Designation</th><th>Subject</th><th>Qualification 1</th>
+                        <th>Qualification 2</th><th>Mobile No</th><th>Action</th>
+                    </tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
-        
+
+        <div id="p-state-staff" class="tab-content" style="display:none;">
+            <h3>STATE STAFF DIRECTORY</h3>
+            <p style="color:#666;">Only staff whose Board is STATE or BOTH are shown here.</p>
+            <div style="overflow-x:auto;"><table id="stateStaffTable">
+                <thead><tr>
+                    <th>S.No</th><th>Board</th><th>Emp ID</th><th>Employee Code</th><th>Name</th>
+                    <th>Joining Date</th><th>Designation</th><th>Subject</th><th>Qualification 1</th>
+                    <th>Qualification 2</th><th>Mobile No</th>
+                </tr></thead><tbody></tbody>
+            </table></div>
+        </div>
+
+        <div id="p-cbse-staff" class="tab-content" style="display:none;">
+            <h3>CBSE STAFF DIRECTORY</h3>
+            <p style="color:#666;">Only staff whose Board is CBSE or BOTH are shown here.</p>
+            <div style="overflow-x:auto;"><table id="cbseStaffTable">
+                <thead><tr>
+                    <th>S.No</th><th>Board</th><th>Emp ID</th><th>Employee Code</th><th>Name</th>
+                    <th>Joining Date</th><th>Designation</th><th>Subject</th><th>Qualification 1</th>
+                    <th>Qualification 2</th><th>Mobile No</th>
+                </tr></thead><tbody></tbody>
+            </table></div>
+        </div>
+
         <!-- Principal Class Timetable View -->
         <div id="p-class-tt" class="tab-content" style="display:none;">
             <h3>Class Master Timetable Viewer</h3>
@@ -709,6 +790,12 @@ table { max-width:100%; }
             document.getElementById(tabId).style.display = 'block';
             event.target.classList.add('active');
 
+            if(tabId === 'p-staff') {
+                renderStaffTable();
+            }
+            if(tabId === 'p-state-staff' || tabId === 'p-cbse-staff') {
+                renderStateAndCBSEStaffTables();
+            }
             if(tabId === 'p-teacher-tt') {
                 populatePrincipalWeeklyTeacherDropdown();
             }
@@ -838,50 +925,133 @@ table { max-width:100%; }
             switchView('teacherModule');
         }
 
+
+        // ================= BOARD / STAFF DIRECTORY HELPERS =================
+        // The Staff Directory is the master source. Timetable operations intentionally
+        // use only CBSE staff plus staff marked BOTH.
+        function normalizeBoard(value) {
+            const b = String(value || '').trim().toUpperCase();
+            return b === 'STATE' || b === 'CBSE' || b === 'BOTH' ? b : '';
+        }
+
+        function isCBSEStaff(staff) {
+            const b = normalizeBoard(staff && staff.board);
+            return b === 'CBSE' || b === 'BOTH';
+        }
+
+        function isStateStaff(staff) {
+            const b = normalizeBoard(staff && staff.board);
+            return b === 'STATE' || b === 'BOTH';
+        }
+
+        function getTimetableStaffList() {
+            return staffList.filter(isCBSEStaff);
+        }
+
+        function staffMatchesBoard(staff, board) {
+            if(board === 'STATE') return isStateStaff(staff);
+            if(board === 'CBSE') return isCBSEStaff(staff);
+            return true;
+        }
+
+        function staffTableRow(staff, index, includeActions = false) {
+            return `<tr>
+                <td>${index + 1}</td>
+                <td><b>${staff.board || '---'}</b></td>
+                <td><b>${staff.empId || '---'}</b></td>
+                <td>${staff.employeeCode || '---'}</td>
+                <td>${staff.name || '---'}</td>
+                <td>${staff.joiningDate || '---'}</td>
+                <td>${staff.designation || '---'}</td>
+                <td>${staff.subject || '---'}</td>
+                <td>${staff.qualification1 || '---'}</td>
+                <td>${staff.qualification2 || '---'}</td>
+                <td>${staff.mobile || '---'}</td>
+                ${includeActions ? `<td>
+                    <button onclick="editStaff(${staffList.indexOf(staff)})">Edit</button>
+                    <button type="button" class="delete-btn" onclick="deleteStaff(${staffList.indexOf(staff)})">Delete</button>
+                </td>` : ''}
+            </tr>`;
+        }
+
+        function renderBoardStaffTable(tableId, board) {
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            if(!tbody) return;
+            const list = staffList.filter(st => staffMatchesBoard(st, board))
+                .sort((a,b) => String(a.name || '').localeCompare(String(b.name || '')));
+            tbody.innerHTML = list.map((st, i) => staffTableRow(st, i, false)).join('');
+        }
+
+        function renderStateAndCBSEStaffTables() {
+            renderBoardStaffTable('stateStaffTable', 'STATE');
+            renderBoardStaffTable('cbseStaffTable', 'CBSE');
+        }
+
         async function saveStaff() {
-            if(!currentUser || currentUser.role !== 'principal') return alert('Only the Principal can add or edit employees.');
+            if(!currentUser || currentUser.role !== 'principal') {
+                return alert('Only the Principal can add or edit employees.');
+            }
+
+            const board = normalizeBoard(document.getElementById('staffBoard').value);
             const empId = document.getElementById('staffEmpId').value.trim();
+            const employeeCode = document.getElementById('staffEmployeeCode').value.trim();
             const name = document.getElementById('staffName').value.trim();
+            const joiningDate = document.getElementById('staffJoiningDate').value.trim();
             const desig = document.getElementById('staffDesig').value;
             const subj = document.getElementById('staffSubj').value;
+            const qualification1 = document.getElementById('staffQualification1').value.trim();
+            const qualification2 = document.getElementById('staffQualification2').value.trim();
             const mob = document.getElementById('staffMob').value.trim();
-            if(!empId || !name || !desig || !subj || !mob) return alert('All fields including Employee ID are mandatory');
-            if(!editingStaffEmpId && staffList.some(s => s.empId.toLowerCase() === empId.toLowerCase())) return alert('Employee ID already exists.');
 
-            const staff = { empId, name, designation: desig, subject: subj, mobile: mob };
+            if(!board || !empId || !name || !desig || !subj || !mob) {
+                return alert('Board, Employee ID, Name, Designation, Subject and Mobile No are mandatory.');
+            }
+
+            if(!editingStaffEmpId && staffList.some(s => String(s.empId || '').toLowerCase() === empId.toLowerCase())) {
+                return alert('Employee ID already exists.');
+            }
+
+            const staff = {
+                empId, employeeCode, name, joiningDate, designation: desig, subject: subj,
+                board, qualification1, qualification2, mobile: mob
+            };
+
             try {
                 const email = staffEmail(empId);
+
                 if(editingStaffEmpId && editingStaffEmpId !== empId) {
                     await db.collection('staff').doc(editingStaffEmpId).delete();
                 }
+
                 await saveStaffToFirestore(staff);
+
+                const isManager = isManagerDesignation(desig);
+                const role = isManager ? 'dean' : 'teacher';
 
                 if(!editingStaffEmpId) {
                     const account = await secondaryAuth.createUserWithEmailAndPassword(email, empId);
-                    const isManager = isManagerDesignation(desig);
-                    const role = isManager ? 'dean' : 'teacher';
                     await db.collection('users').doc(account.user.uid).set({
                         uid: account.user.uid, role, teacherAccess: isManager,
-                        empId, name, designation: desig, subject: subj
+                        empId, name, designation: desig, subject: subj, board
                     });
                     await secondaryAuth.signOut();
                 } else {
                     const old = staffList.find(s => s.empId === editingStaffEmpId);
                     const oldSnap = old ? await db.collection('users').where('empId','==',editingStaffEmpId).limit(1).get() : null;
                     if(oldSnap && !oldSnap.empty) {
-                        const isManager = isManagerDesignation(desig);
                         await db.collection('users').doc(oldSnap.docs[0].id).update({
-                            empId, name, designation: desig, subject: subj,
-                            role: isManager ? 'dean' : 'teacher',
-                            teacherAccess: isManager
+                            empId, name, designation: desig, subject: subj, board,
+                            role, teacherAccess: isManager
                         });
                     }
                 }
 
                 const snap = await db.collection('staff').get();
-                staffList = []; snap.forEach(d => staffList.push(d.data()));
+                staffList = [];
+                snap.forEach(d => staffList.push(d.data()));
                 editingStaffEmpId = null;
-                renderStaffTable(); clearStaffForm();
+                renderStaffTable();
+                clearStaffForm();
                 alert('Employee saved successfully. Login email: ' + email + ' | Password: Employee ID');
             } catch(e) {
                 console.error(e);
@@ -891,27 +1061,19 @@ table { max-width:100%; }
 
         function clearStaffForm() {
             editingStaffEmpId = null;
-            document.getElementById('staffEmpId').value = '';
-            document.getElementById('staffName').value = '';
-            document.getElementById('staffDesig').value = '';
-            document.getElementById('staffSubj').value = '';
-            document.getElementById('staffMob').value = '';
+            ['staffBoard','staffEmpId','staffEmployeeCode','staffName','staffJoiningDate',
+             'staffDesig','staffSubj','staffQualification1','staffQualification2','staffMob']
+             .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
         }
 
         function renderStaffTable() {
             const tbody = document.querySelector('#staffTable tbody');
-            tbody.innerHTML = '';
-            staffList.forEach((staff, index) => {
-                tbody.innerHTML += `<tr>
-                    <td>${index + 1}</td>
-                    <td><b>${staff.empId || '---'}</b></td>
-                    <td>${staff.name}</td>
-                    <td>${staff.designation}</td>
-                    <td>${staff.subject}</td>
-                    <td>${staff.mobile}</td>
-                    <td><button onclick="editStaff(${index})">Edit</button> <button type="button" class="delete-btn" onclick="deleteStaff(${index})">Delete</button></td>
-                </tr>`;
-            });
+            if(!tbody) return;
+            const filter = document.getElementById('staffDirectoryFilter')?.value || 'ALL';
+            const list = staffList.filter(st => staffMatchesBoard(st, filter))
+                .sort((a,b) => String(a.name || '').localeCompare(String(b.name || '')));
+            tbody.innerHTML = list.map((staff, index) => staffTableRow(staff, index, true)).join('');
+            renderStateAndCBSEStaffTables();
         }
 
         // Principal-only staff deletion.
@@ -959,12 +1121,18 @@ table { max-width:100%; }
         function editStaff(index) {
             if(!currentUser || currentUser.role !== 'principal') return;
             const s = staffList[index];
+            if(!s) return;
             editingStaffEmpId = s.empId;
+            document.getElementById('staffBoard').value = normalizeBoard(s.board) || '';
             document.getElementById('staffEmpId').value = s.empId || '';
-            document.getElementById('staffName').value = s.name;
-            document.getElementById('staffDesig').value = s.designation;
-            document.getElementById('staffSubj').value = s.subject;
-            document.getElementById('staffMob').value = s.mobile;
+            document.getElementById('staffEmployeeCode').value = s.employeeCode || '';
+            document.getElementById('staffName').value = s.name || '';
+            document.getElementById('staffJoiningDate').value = s.joiningDate || '';
+            document.getElementById('staffDesig').value = s.designation || '';
+            document.getElementById('staffSubj').value = s.subject || '';
+            document.getElementById('staffQualification1').value = s.qualification1 || '';
+            document.getElementById('staffQualification2').value = s.qualification2 || '';
+            document.getElementById('staffMob').value = s.mobile || '';
             window.scrollTo({top:0, behavior:'smooth'});
         }
 
@@ -1010,7 +1178,7 @@ table { max-width:100%; }
                 }
 
                 let teacherOptions = `<option value="">Select Teacher</option>`;
-                staffList.forEach(st => {
+                getTimetableStaffList().forEach(st => {
                     const isBusy = busyTeachers.includes(st.name);
                     const isSelected = currentAssignment.teacher === st.name;
                     if(isBusy && !isSelected) {
@@ -1093,7 +1261,7 @@ table { max-width:100%; }
             const sel = document.getElementById('twSelectTeacher');
             if(!sel) return;
             sel.innerHTML = '<option value="">Select Teacher</option>';
-            staffList.forEach(st => {
+            getTimetableStaffList().forEach(st => {
                 sel.innerHTML += `<option value="${st.name}">${st.name} (${st.designation} - ${st.subject})</option>`;
             });
         }
@@ -1223,7 +1391,7 @@ table { max-width:100%; }
             periods.forEach(p => { html += `<th>P-${p.id}<br><small>${p.time}</small></th>`; });
             html += `<th class="no-print">Action</th></tr></thead><tbody>`;
 
-            staffList.forEach((st, sIndex) => {
+            getTimetableStaffList().forEach((st, sIndex) => {
                 html += `<tr id="row_st_${sIndex}"><td><b>${st.name}</b></td><td>${st.designation}</td>`;
                 periods.forEach(p => {
                     if(isHoliday) {
@@ -1384,7 +1552,7 @@ table { max-width:100%; }
             const container = document.getElementById('absentStaffCheckboxes');
             const currentlyChecked = Array.from(document.querySelectorAll('.absent-check:checked')).map(cb => cb.value);
             container.innerHTML = '';
-            staffList.forEach(st => {
+            getTimetableStaffList().forEach(st => {
                 const isChecked = currentlyChecked.includes(st.name) ? 'checked' : '';
                 container.innerHTML += `<label><input type="checkbox" value="${st.name}" class="absent-check" ${isChecked}> ${st.name} (${st.subject})</label>`;
             });
@@ -1453,7 +1621,7 @@ table { max-width:100%; }
             html += `<table><thead><tr><th>S.No</th><th>Period</th><th>Time</th><th>Absent Teacher</th><th>Class & Subject</th><th>Substitute Teacher Assigned</th><th style="width:75px;">Sign</th></tr></thead><tbody>`;
 
             periodsToSub.forEach((item, index) => {
-                let freeStaff = staffList.filter(st => {
+                let freeStaff = getTimetableStaffList().filter(st => {
                     if(selectedAbsent.includes(st.name)) return false;
                     for(let cls in masterTimetable) {
                         if(masterTimetable[cls]?.[dayName]?.[item.period]?.teacher === st.name) return false;
@@ -1690,7 +1858,7 @@ table { max-width:100%; }
             const previous = sel.value;
             sel.innerHTML = '<option value="">Select Teacher</option>';
 
-            const teachers = [...staffList]
+            const teachers = [...getTimetableStaffList()]
                 .filter(st => st && st.name)
                 .sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
@@ -1717,7 +1885,7 @@ table { max-width:100%; }
                 return;
             }
 
-            const teacher = staffList.find(st => st.name === teacherName) || {};
+            const teacher = getTimetableStaffList().find(st => st.name === teacherName) || {};
             const safeName = String(teacherName).replace(/'/g, "\\'");
 
             let html = `<div id="principalTeacherWeeklyPrintContainer">
@@ -1819,7 +1987,7 @@ table { max-width:100%; }
             periods.forEach(p => { html += `<th>P-${p.id}<br><small>${p.time}</small></th>`; });
             html += `</tr></thead><tbody>`;
 
-            staffList.forEach((st) => {
+            getTimetableStaffList().forEach((st) => {
                 html += `<tr><td><b>${st.empId || '---'}</b></td><td><b>${st.name}</b></td><td>${st.designation}</td>`;
                 periods.forEach(p => {
                     if(isHoliday) {
